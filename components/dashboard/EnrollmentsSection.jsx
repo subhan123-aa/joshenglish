@@ -11,13 +11,13 @@ export function EnrollmentsSection({
       <form className="admin-card form-card" onSubmit={onSubmit}>
         <div className="card-header">
           <div>
-            <h2>Add Manual Enrollment</h2>
-            <p>Capture walk-in or phone inquiries directly from the panel.</p>
+            <h2>Add Manual Lead</h2>
+            <p>Capture walk-in enquiries or phone leads directly from the dashboard.</p>
           </div>
         </div>
         <div className="form-grid">
           <label>
-            Student Name
+            Name
             <input
               type="text"
               value={enrollmentForm.name}
@@ -39,7 +39,7 @@ export function EnrollmentsSection({
             />
           </label>
           <label>
-            Selected Course
+            Selected Program
             <select
               value={enrollmentForm.course}
               onChange={(event) =>
@@ -47,7 +47,7 @@ export function EnrollmentsSection({
               }
               required
             >
-              <option value="">Choose course</option>
+              <option value="">Choose program</option>
               {courses.map((course) => (
                 <option key={course._id} value={course.name}>
                   {course.name}
@@ -57,15 +57,15 @@ export function EnrollmentsSection({
           </label>
         </div>
         <button type="submit" className="btn btn-primary">
-          Save Enrollment
+          Save Lead
         </button>
       </form>
 
       <div className="admin-card">
         <div className="card-header">
           <div>
-            <h2>Enrollment Requests</h2>
-            <p>Approve or reject incoming website leads.</p>
+            <h2>Enquiry Leads</h2>
+            <p>Track incoming consultation requests and update their status.</p>
           </div>
         </div>
         <div className="table-wrap">
@@ -125,3 +125,4 @@ export function EnrollmentsSection({
     </section>
   );
 }
+

@@ -2,7 +2,8 @@ const sections = [
   { key: "overview", label: "Dashboard" },
   { key: "students", label: "Students" },
   { key: "courses", label: "Courses" },
-  { key: "enrollments", label: "Enrollments" },
+  { key: "enquiries", label: "Enquiry Leads" },
+  { key: "seminars", label: "Seminar Gallery" },
   { key: "content", label: "Content" },
   { key: "settings", label: "Settings" },
 ];
@@ -22,7 +23,7 @@ export function AdminShell({
           <span className="brand-mark">J</span>
           <div>
             <strong>Josh English Academy</strong>
-            <div className="muted-copy">Admin Dashboard</div>
+            <div className="muted-copy">Professional institute dashboard</div>
           </div>
         </div>
 
@@ -55,7 +56,7 @@ export function AdminShell({
         <header className="topbar">
           <div>
             <h1>{sections.find((item) => item.key === activeSection)?.label}</h1>
-            <p>Professional CRM controls for students, courses, enrollments, and content.</p>
+            <p>Manage coaching content, enquiry leads, seminar imagery, and academy settings.</p>
           </div>
           <div className="topbar-badge">
             <span>New alerts</span>

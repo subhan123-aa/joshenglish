@@ -7,7 +7,7 @@ export function OverviewSection({ dashboard, notifications, onMarkRead }) {
           <strong>{dashboard.stats.totalStudents}</strong>
         </div>
         <div className="metric-card">
-          <span>Total Enrollments</span>
+          <span>Total Leads</span>
           <strong>{dashboard.stats.totalEnrollments}</strong>
         </div>
         <div className="metric-card">
@@ -20,7 +20,7 @@ export function OverviewSection({ dashboard, notifications, onMarkRead }) {
         <div className="admin-card">
           <div className="card-header">
             <div>
-              <h2>Recent Enrollments</h2>
+              <h2>Recent Leads</h2>
               <p>Fresh requests coming from the website and manual entries.</p>
             </div>
           </div>

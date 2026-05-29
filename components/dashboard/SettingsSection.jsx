@@ -12,7 +12,7 @@ export function SettingsSection({
         <div className="card-header">
           <div>
             <h2>Basic Site Settings</h2>
-            <p>Update academy-level contact and branding details.</p>
+            <p>Update academy contact information and administrative login details.</p>
           </div>
         </div>
         <div className="form-grid">
@@ -27,7 +27,7 @@ export function SettingsSection({
             />
           </label>
           <label>
-            Support Email
+            Official Email
             <input
               type="email"
               value={settings.supportEmail}

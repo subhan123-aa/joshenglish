@@ -9,7 +9,7 @@ async function getSingletonSettings() {
     (await Settings.findOne()) ||
     Settings.create({
       siteName: "Josh English Academy",
-      supportEmail: "info@joshenglishacademy.com",
+      supportEmail: "contact@joshenglishacademy.in",
       contactPhone: "8759137380",
     })
   );

@@ -10,29 +10,8 @@ import { CoursesSection } from "@/components/dashboard/CoursesSection";
 import { EnrollmentsSection } from "@/components/dashboard/EnrollmentsSection";
 import { ContentSection } from "@/components/dashboard/ContentSection";
 import { SettingsSection } from "@/components/dashboard/SettingsSection";
-
-const defaultContent = {
-  heroTitle: "Boost Your Spoken English Today!",
-  heroSubtitle: "Most Trusted Since 2015",
-  heroDescription:
-    "Learn with confidence under RKD Sir and build the fluency, personality, and exam-ready English skills needed for real success.",
-  aboutTitle: "About Josh English Academy",
-  aboutText:
-    "Josh English Academy, led by RKD Sir, has been helping students improve spoken English and crack competitive exams since 2015. We focus on practical learning, fluency, and confidence building.",
-  contactPhone: "8759137380",
-  whatsappNumber: "918759137380",
-  contactEmail: "info@joshenglishacademy.com",
-  branches: [
-    { title: "Islampur", subtitle: "Near Union Bank" },
-    { title: "Chakulia", subtitle: "Uttar Dinajpur" },
-    { title: "Barodhia", subtitle: "Near Kishanganj" },
-  ],
-  socialLinks: {
-    youtube: "https://youtube.com",
-    instagram: "https://instagram.com",
-    facebook: "https://facebook.com",
-  },
-};
+import { SeminarGallerySection } from "@/components/dashboard/SeminarGallerySection";
+import { defaultSiteContent } from "@/lib/siteContent";
 
 const emptyStudent = { name: "", phone: "", course: "", paymentStatus: "Pending" };
 const emptyCourse = { name: "", description: "", price: "", duration: "" };
@@ -50,10 +29,10 @@ export default function DashboardPage() {
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
   const [enrollments, setEnrollments] = useState([]);
-  const [content, setContent] = useState(defaultContent);
+  const [content, setContent] = useState(defaultSiteContent);
   const [settings, setSettings] = useState({
     siteName: "Josh English Academy",
-    supportEmail: "info@joshenglishacademy.com",
+    supportEmail: "contact@joshenglishacademy.in",
     contactPhone: "8759137380",
   });
   const [notifications, setNotifications] = useState([]);
@@ -111,8 +90,28 @@ export default function DashboardPage() {
           setStudents(data[1]);
           setCourses(data[2]);
           setEnrollments(data[3]);
-          setContent({ ...defaultContent, ...data[4] });
-          setSettings(data[5]);
+          setContent({
+            ...defaultSiteContent,
+            ...data[4],
+            socialLinks: {
+              ...defaultSiteContent.socialLinks,
+              ...(data[4]?.socialLinks || {}),
+            },
+            seminarGallery:
+              data[4]?.seminarGallery?.length
+                ? data[4].seminarGallery
+                : defaultSiteContent.seminarGallery,
+            courses: data[4]?.courses?.length ? data[4].courses : defaultSiteContent.courses,
+            aboutPoints:
+              data[4]?.aboutPoints?.length
+                ? data[4].aboutPoints
+                : defaultSiteContent.aboutPoints,
+            highlights:
+              data[4]?.highlights?.length
+                ? data[4].highlights
+                : defaultSiteContent.highlights,
+          });
+          setSettings((current) => ({ ...current, ...(data[5] || {}) }));
           setNotifications(data[6]);
         } catch (apiError) {
           console.log("Dashboard API fallback:", apiError);
@@ -164,13 +163,23 @@ export default function DashboardPage() {
   }
 
   async function refreshDashboard() {
-    const [dashboardData, studentData, courseData, enrollmentData, notificationData] =
+    const [
+      dashboardData,
+      studentData,
+      courseData,
+      enrollmentData,
+      notificationData,
+      contentData,
+      settingsData,
+    ] =
       await Promise.all([
         api.get("/dashboard", { credentials: "include" }),
         api.get("/students", { credentials: "include" }),
         api.get("/courses", { credentials: "include" }),
         api.get("/enrollments", { credentials: "include" }),
         api.get("/notifications", { credentials: "include" }),
+        api.get("/content", { credentials: "include" }),
+        api.get("/settings", { credentials: "include" }),
       ]);
 
     setDashboard(dashboardData);
@@ -178,6 +187,24 @@ export default function DashboardPage() {
     setCourses(courseData);
     setEnrollments(enrollmentData);
     setNotifications(notificationData);
+    setContent({
+      ...defaultSiteContent,
+      ...contentData,
+      socialLinks: {
+        ...defaultSiteContent.socialLinks,
+        ...(contentData?.socialLinks || {}),
+      },
+      seminarGallery:
+        contentData?.seminarGallery?.length
+          ? contentData.seminarGallery
+          : defaultSiteContent.seminarGallery,
+      courses: contentData?.courses?.length ? contentData.courses : defaultSiteContent.courses,
+      aboutPoints:
+        contentData?.aboutPoints?.length ? contentData.aboutPoints : defaultSiteContent.aboutPoints,
+      highlights:
+        contentData?.highlights?.length ? contentData.highlights : defaultSiteContent.highlights,
+    });
+    setSettings((current) => ({ ...current, ...(settingsData || {}) }));
   }
 
   async function handleStudentSubmit(event) {
@@ -355,7 +382,7 @@ export default function DashboardPage() {
           onDelete={handleDelete}
         />
       ) : null}
-      {activeSection === "enrollments" ? (
+      {activeSection === "enquiries" ? (
         <EnrollmentsSection
           enrollmentForm={enrollmentForm}
           setEnrollmentForm={setEnrollmentForm}
@@ -365,12 +392,14 @@ export default function DashboardPage() {
           onStatusChange={updateEnrollmentStatus}
         />
       ) : null}
+      {activeSection === "seminars" ? (
+        <SeminarGallerySection content={content} setContent={setContent} onSubmit={saveContent} />
+      ) : null}
       {activeSection === "content" ? (
         <ContentSection
           content={content}
           setContent={setContent}
           onSubmit={saveContent}
-          defaultContent={defaultContent}
         />
       ) : null}
       {activeSection === "settings" ? (

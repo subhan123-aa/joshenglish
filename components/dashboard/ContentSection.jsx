@@ -1,44 +1,60 @@
-export function ContentSection({ content, setContent, onSubmit, defaultContent }) {
+export function ContentSection({ content, setContent, onSubmit }) {
+  function updatePath(path, value) {
+    setContent((current) => {
+      const next = { ...current };
+      let target = next;
+
+      for (let index = 0; index < path.length - 1; index += 1) {
+        const key = path[index];
+        target[key] = { ...(target[key] || {}) };
+        target = target[key];
+      }
+
+      target[path[path.length - 1]] = value;
+      return next;
+    });
+  }
+
   return (
     <section className="admin-card form-card">
       <div className="card-header">
         <div>
-          <h2>Content Management</h2>
-          <p>Edit website content without touching the code.</p>
+          <h2>Website Content</h2>
+          <p>Update the public banner, about copy, official email, and consultation text.</p>
         </div>
       </div>
+
       <form className="form-grid" onSubmit={onSubmit}>
         <label>
-          Hero Title
+          Hero Eyebrow
           <input
             type="text"
-            value={content.heroTitle}
-            onChange={(event) =>
-              setContent((current) => ({ ...current, heroTitle: event.target.value }))
-            }
+            value={content.heroEyebrow}
+            onChange={(event) => updatePath(["heroEyebrow"], event.target.value)}
           />
         </label>
         <label>
-          Hero Subtitle
+          Banner Title
           <input
             type="text"
-            value={content.heroSubtitle}
-            onChange={(event) =>
-              setContent((current) => ({ ...current, heroSubtitle: event.target.value }))
-            }
+            value={content.bannerTitle}
+            onChange={(event) => updatePath(["bannerTitle"], event.target.value)}
+          />
+        </label>
+        <label>
+          Banner Tagline
+          <input
+            type="text"
+            value={content.bannerTagline}
+            onChange={(event) => updatePath(["bannerTagline"], event.target.value)}
           />
         </label>
         <label className="full-span">
-          Hero Description
+          Banner Copy
           <textarea
             rows={4}
-            value={content.heroDescription}
-            onChange={(event) =>
-              setContent((current) => ({
-                ...current,
-                heroDescription: event.target.value,
-              }))
-            }
+            value={content.bannerCopy}
+            onChange={(event) => updatePath(["bannerCopy"], event.target.value)}
           />
         </label>
         <label>
@@ -46,19 +62,71 @@ export function ContentSection({ content, setContent, onSubmit, defaultContent }
           <input
             type="text"
             value={content.aboutTitle}
-            onChange={(event) =>
-              setContent((current) => ({ ...current, aboutTitle: event.target.value }))
-            }
+            onChange={(event) => updatePath(["aboutTitle"], event.target.value)}
+          />
+        </label>
+        <label>
+          About Experience
+          <input
+            type="text"
+            value={content.aboutExperience}
+            onChange={(event) => updatePath(["aboutExperience"], event.target.value)}
+          />
+        </label>
+        <label>
+          Experience Badge
+          <input
+            type="text"
+            value={content.experienceBadge}
+            onChange={(event) => updatePath(["experienceBadge"], event.target.value)}
+          />
+        </label>
+        <label>
+          Official Email
+          <input
+            type="email"
+            value={content.officialEmail}
+            onChange={(event) => updatePath(["officialEmail"], event.target.value)}
+          />
+        </label>
+        <label>
+          Govt Registration Badge
+          <input
+            type="text"
+            value={content.govtBadge}
+            onChange={(event) => updatePath(["govtBadge"], event.target.value)}
+          />
+        </label>
+        <label>
+          Consultation Heading
+          <input
+            type="text"
+            value={content.consultationTitle}
+            onChange={(event) => updatePath(["consultationTitle"], event.target.value)}
           />
         </label>
         <label className="full-span">
-          About Text
+          Consultation Subheading
           <textarea
-            rows={5}
-            value={content.aboutText}
-            onChange={(event) =>
-              setContent((current) => ({ ...current, aboutText: event.target.value }))
-            }
+            rows={3}
+            value={content.consultationSubtitle}
+            onChange={(event) => updatePath(["consultationSubtitle"], event.target.value)}
+          />
+        </label>
+        <label>
+          Consultation Button
+          <input
+            type="text"
+            value={content.consultationButton}
+            onChange={(event) => updatePath(["consultationButton"], event.target.value)}
+          />
+        </label>
+        <label className="full-span">
+          Consultation Note
+          <input
+            type="text"
+            value={content.consultationNote}
+            onChange={(event) => updatePath(["consultationNote"], event.target.value)}
           />
         </label>
         <label>
@@ -66,9 +134,7 @@ export function ContentSection({ content, setContent, onSubmit, defaultContent }
           <input
             type="text"
             value={content.contactPhone}
-            onChange={(event) =>
-              setContent((current) => ({ ...current, contactPhone: event.target.value }))
-            }
+            onChange={(event) => updatePath(["contactPhone"], event.target.value)}
           />
         </label>
         <label>
@@ -76,126 +142,36 @@ export function ContentSection({ content, setContent, onSubmit, defaultContent }
           <input
             type="text"
             value={content.whatsappNumber}
-            onChange={(event) =>
-              setContent((current) => ({
-                ...current,
-                whatsappNumber: event.target.value,
-              }))
-            }
+            onChange={(event) => updatePath(["whatsappNumber"], event.target.value)}
           />
         </label>
-        <label>
-          Contact Email
-          <input
-            type="email"
-            value={content.contactEmail}
-            onChange={(event) =>
-              setContent((current) => ({ ...current, contactEmail: event.target.value }))
-            }
+        <label className="full-span">
+          About Copy
+          <textarea
+            rows={5}
+            value={content.aboutCopy}
+            onChange={(event) => updatePath(["aboutCopy"], event.target.value)}
           />
         </label>
-        <label>
-          Islampur Branch
+        <label className="full-span">
+          Seminar Section Title
           <input
             type="text"
-            value={content.branches?.[0]?.subtitle || ""}
-            onChange={(event) =>
-              setContent((current) => ({
-                ...current,
-                branches: [
-                  { title: "Islampur", subtitle: event.target.value },
-                  current.branches?.[1] || defaultContent.branches[1],
-                  current.branches?.[2] || defaultContent.branches[2],
-                ],
-              }))
-            }
+            value={content.seminarSectionTitle}
+            onChange={(event) => updatePath(["seminarSectionTitle"], event.target.value)}
           />
         </label>
-        <label>
-          Chakulia Branch
-          <input
-            type="text"
-            value={content.branches?.[1]?.subtitle || ""}
-            onChange={(event) =>
-              setContent((current) => ({
-                ...current,
-                branches: [
-                  current.branches?.[0] || defaultContent.branches[0],
-                  { title: "Chakulia", subtitle: event.target.value },
-                  current.branches?.[2] || defaultContent.branches[2],
-                ],
-              }))
-            }
-          />
-        </label>
-        <label>
-          Barodhia Branch
-          <input
-            type="text"
-            value={content.branches?.[2]?.subtitle || ""}
-            onChange={(event) =>
-              setContent((current) => ({
-                ...current,
-                branches: [
-                  current.branches?.[0] || defaultContent.branches[0],
-                  current.branches?.[1] || defaultContent.branches[1],
-                  { title: "Barodhia", subtitle: event.target.value },
-                ],
-              }))
-            }
-          />
-        </label>
-        <label>
-          YouTube Link
-          <input
-            type="url"
-            value={content.socialLinks?.youtube || ""}
-            onChange={(event) =>
-              setContent((current) => ({
-                ...current,
-                socialLinks: {
-                  ...(current.socialLinks || defaultContent.socialLinks),
-                  youtube: event.target.value,
-                },
-              }))
-            }
-          />
-        </label>
-        <label>
-          Instagram Link
-          <input
-            type="url"
-            value={content.socialLinks?.instagram || ""}
-            onChange={(event) =>
-              setContent((current) => ({
-                ...current,
-                socialLinks: {
-                  ...(current.socialLinks || defaultContent.socialLinks),
-                  instagram: event.target.value,
-                },
-              }))
-            }
-          />
-        </label>
-        <label>
-          Facebook Link
-          <input
-            type="url"
-            value={content.socialLinks?.facebook || ""}
-            onChange={(event) =>
-              setContent((current) => ({
-                ...current,
-                socialLinks: {
-                  ...(current.socialLinks || defaultContent.socialLinks),
-                  facebook: event.target.value,
-                },
-              }))
-            }
+        <label className="full-span">
+          Seminar Section Copy
+          <textarea
+            rows={4}
+            value={content.seminarSectionCopy}
+            onChange={(event) => updatePath(["seminarSectionCopy"], event.target.value)}
           />
         </label>
         <div className="full-span">
           <button type="submit" className="btn btn-primary">
-            Save Content
+            Save Public Content
           </button>
         </div>
       </form>

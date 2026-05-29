@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { api } from "@/lib/api";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -13,48 +14,25 @@ export default function LoginPage() {
     setStatus({ loading: true, error: "" });
 
     try {
-      const email = form.email.trim();
-      const password = form.password;
+      const data = await api.post(
+        "/auth/login",
+        { email: form.email.trim(), password: form.password },
+        { credentials: "include" }
+      );
 
-      console.log("Sending login request...");
-
-      const res = await fetch("http://localhost:5000/api/admin/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-      console.log("Response:", data);
-
-      if (res.ok && data.token) {
-        localStorage.setItem("adminToken", data.token);
-        window.location.href = "/admin/dashboard";
+      if (data.admin) {
+        localStorage.setItem("adminToken", "authenticated");
+        router.push("/admin/dashboard");
         return;
       }
 
-      setStatus({
-        loading: false,
-        error: data.message || "Login failed",
-      });
-      return;
+      setStatus({ loading: false, error: "Login failed" });
     } catch (error) {
-      const isNetworkError =
-        error instanceof TypeError ||
-        String(error.message || "").toLowerCase().includes("fetch");
-
       setStatus({
         loading: false,
-        error: isNetworkError
-          ? "Unable to connect to the login server. Please make sure the backend is running on http://localhost:5000."
-          : "Login failed",
+        error: error.message || "Unable to sign in right now.",
       });
-      return;
     }
-
-    setStatus({ loading: false, error: "" });
   }
 
   return (
@@ -64,8 +42,8 @@ export default function LoginPage() {
           <span className="eyebrow">Admin Access</span>
           <h1>Welcome back to Josh English Academy</h1>
           <p>
-            Securely manage students, courses, enrollments, content, and admin
-            settings from one dashboard.
+            Manage enquiry leads, seminar gallery updates, website content, and academy settings
+            from one clean dashboard.
           </p>
         </div>
 
@@ -97,9 +75,6 @@ export default function LoginPage() {
           <button type="submit" className="btn btn-primary full-width" disabled={status.loading}>
             {status.loading ? "Signing in..." : "Login"}
           </button>
-          <a href="/admin/forgot-password" className="subtle-link">
-            Forgot password?
-          </a>
         </form>
       </section>
     </main>

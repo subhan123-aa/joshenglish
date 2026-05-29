@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #071226;
-  --bg-soft: #0f1d35;
+  --bg: #0b0b0b;
+  --bg-soft: #f8fafc;
   --panel: #ffffff;
-  --panel-soft: #f5f8fc;
-  --line: #dbe4f0;
-  --text: #081526;
-  --muted: #607089;
-  --primary: #f4c84d;
-  --primary-strong: #e0af1b;
+  --panel-soft: #f7f7f7;
+  --line: #e5e5e5;
+  --text: #111111;
+  --muted: #667085;
+  --primary: #f97316;
+  --primary-strong: #ea580c;
   --success: #1f9d68;
   --danger: #dc4c4c;
   --warning: #f59e0b;
-  --blue: #163c84;
-  --shadow: 0 24px 60px rgba(8, 21, 38, 0.12);
+  --blue: #1f2937;
+  --shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
   --radius-xl: 30px;
   --radius-lg: 22px;
   --container: min(1180px, calc(100% - 2rem));
@@ -33,7 +33,7 @@ body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   color: var(--text);
-  background: linear-gradient(180deg, #f7f9fc 0%, #eef3f9 100%);
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
   overflow-x: hidden;
 }
 
@@ -42,12 +42,12 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-track {
-  background: #dfe7f2;
+  background: #e5e7eb;
 }
 
 body::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #163c84, #244f9b);
-  border: 3px solid #dfe7f2;
+  background: linear-gradient(180deg, #f97316, #fdba74);
+  border: 3px solid #e5e7eb;
   border-radius: 999px;
 }
 

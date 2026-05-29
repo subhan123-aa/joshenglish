@@ -7,8 +7,9 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "Josh English Academy",
-  description: "Premium English coaching website and admin dashboard",
+  title: "Josh English Academy | Spoken English Coaching",
+  description:
+    "Josh English Academy by R.K.D Sir offers spoken English training, personality development, interview preparation, and communication skills coaching.",
 };
 
 export default function RootLayout({ children }) {
